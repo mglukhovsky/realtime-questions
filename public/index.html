@@ -1,0 +1,33 @@
+<!DOCTYPE html >
+<html>
+    <head>
+        <script type="text/javascript" src="/js/zepto.min.js"></script>
+        <script type="text/javascript" src="/js/vue.min.js"></script>
+        <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+
+        <script type="text/javascript" src="app.js"></script>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" type="text/css" href="/style.css">
+    </head>
+    <body>
+        <div id="ask-question">
+            <input id="new-question" type="text"
+                v-on="keyup: askQuestion | key enter"
+                placeholder="Ask a question about RethinkDB...">
+        </div>
+        <div id="questions">
+            <ul>
+                <li class="question-{{$index}}"
+                    v-repeat="questions | orderBy 'points' -1"
+                    v-ref="question" 
+                    track-by="id">
+                    <a v-on="click: upvoteQuestion" href="#" class="upvote">
+                        <span class="upvote-arrow"></span>
+                        <span class="points">{{ points }}</span>
+                    </a>
+                    <span class="question">{{ question }}</span>
+                </li>
+            </ul>
+        </div>
+    </body>
+</html>

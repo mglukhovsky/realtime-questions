@@ -1,0 +1,17 @@
+{
+  "name": "realtime-questions",
+  "version": "0.0.1",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.12.3",
+    "rethinkdb": "^2.0.0",
+    "socket.io": "^1.3.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Michael Glukhovsky",
+  "license": "MIT"
+}
