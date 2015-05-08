@@ -18,7 +18,6 @@ $(function() {
         },
         created: function() {
             this.$watch('questions', function() {
-                // TODO update the sort function to include lexicographic ordering
                 sorted = this.$.question.concat().sort(function(a,b) {
                     // First sort by points...
                     points = b.$get('points') - a.$get('points');
