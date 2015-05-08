@@ -16,11 +16,13 @@
                 placeholder="Ask a question about RethinkDB...">
         </div>
         <div id="questions">
-            <ul>
+            <!-- v-repeat="questions | orderBy 'points' -1" -->
+            <ul v-style="height: questions.length*2.5+'em';">
                 <li class="question-{{$index}}"
-                    v-repeat="questions | orderBy 'points' -1"
+                    v-repeat="questions"
                     v-ref="question" 
-                    track-by="id">
+                    track-by="id"
+                    v-style="top: orderOfQuestion" >
                     <a v-on="click: upvoteQuestion" href="#" class="upvote">
                         <span class="upvote-arrow"></span>
                         <span class="points">{{ points }}</span>

@@ -15,27 +15,39 @@ $(function() {
         el: "#questions",
         data: {
             questions: []
+        },
+        created: function() {
+            this.$watch('questions', function() {
+                // TODO update the sort function to include lexicographic ordering
+                sorted = this.$.question.concat().sort(function(a,b) {
+                    // First sort by points...
+                    points = b.$get('points') - a.$get('points');
+                    if (points != 0) { return points; }
+                    // .. and then lexicographically (based on the question)
+                    return a.question.localeCompare(b.question);
 
+                });
+                $.each(sorted, function(i, question) {
+                    $(question.$el).css('top',(i*2.5)+'em');
+                });
+            })
         },
         methods: {
             upvoteQuestion: function(e) {
                 e.preventDefault();
-                app.upvoteQuestion(e.targetVM.$data.id);
-            }
-        }
+                app.upvoteQuestion(e.targetVM.$get('id'));
+            },
+        },
     });
 
     app.socket = io.connect();
 
     app.socket.on('load questions', function(data) {
-        console.log(data);
-        app.list.$data.questions = data;
+        app.list.$set('questions', data);
 
     });
 
     app.socket.on('questions', function(data) {
-        console.log(data);
-
         // Update the list of questions
         questions = app.list.$data.questions;
 
@@ -48,12 +60,7 @@ $(function() {
                     // Deleting a question
                     if (data.new_val == null) { questions.$remove(i) }
                     // Updating the question
-                    else { 
-                        questions.$set(i, data.new_val)
-                        // Get the child view for the question, and flash it
-                        $q = $(app.list.$.question[i].$el)
-                        $q.focus()
-                    }
+                    else { questions.$set(i, data.new_val) }
                 }
             });
         }
