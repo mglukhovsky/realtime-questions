@@ -2,6 +2,7 @@
 <html>
     <head>
         <script type="text/javascript" src="/js/zepto.min.js"></script>
+        <script type="text/javascript" src="/js/jquery.ba-throttle-debounce.min.js"></script>
         <script type="text/javascript" src="/js/vue.min.js"></script>
         <script type="text/javascript" src="/socket.io/socket.io.js"></script>
 
@@ -16,11 +17,11 @@
                 placeholder="Ask a question about RethinkDB...">
         </div>
         <div id="questions">
-            <!-- v-repeat="questions | orderBy 'points' -1" -->
             <ul v-style="height: questions.length*2.5+'em';">
-                <li class="question-{{$index}}"
+                <li class="question question-{{$index}}"
                     v-repeat="questions"
                     v-ref="question" 
+                    v-on="click: expandQuestion"
                     track-by="id"
                     v-style="top: orderOfQuestion" >
                     <a v-on="click: upvoteQuestion" href="#" class="upvote">

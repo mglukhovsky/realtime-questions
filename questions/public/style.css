@@ -1,6 +1,7 @@
 
-body {
+html, body {
     font-family: 'Open Sans', sans-serif;
+    height: 100%;
 }
 
 #ask-question input {
@@ -27,7 +28,7 @@ body {
 
 
 #questions {
-    padding: 1em 0;
+    padding: 1em 0.5em;
 }
 
 #questions ul {
@@ -40,7 +41,7 @@ body {
 #questions li {
     position: absolute;
     width: 100%;
-    height: 2.5em;
+    max-height: 2.5em;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -51,10 +52,23 @@ body {
     background: white; 
     text-overflow: ellipsis;
     overflow: hidden;
+    border: thin solid transparent;
+    border-radius: 3px;
+    white-space: nowrap;
+    cursor: pointer;
 }
 
 #questions li:hover, #questions li:focus {
-    background: #FDFBF7;
+    background: rgba(253, 251, 247, 1)
+}
+
+#questions li.expanded {
+    max-height: 5000em;
+    background: rgba(253,251,247,0.95);
+    overflow: visible;
+    white-space: normal;
+    border: thin solid rgb(224, 216, 216);
+    z-index: 2;
 }
 
 #questions li a.upvote {

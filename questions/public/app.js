@@ -32,11 +32,34 @@ $(function() {
             })
         },
         methods: {
+            expandQuestion: function(e) {
+                $el = $(e.targetVM.$el)
+                $el.siblings().removeClass('expanded');
+                $el.addClass('expanded');
+            },
+            collapseQuestion: function(e) {
+                $(e.targetVM.$el).removeClass('expanded');
+            },
             upvoteQuestion: function(e) {
+                // Basic throttling, so you can't abuse this with a script
+                if (app.isThrottled) { return; }
+                app.isThrottled = true;
+                setTimeout(function() { app.isThrottled = false; }, app.throttleDuration);
+
+                // Stop events from bubbling up
                 e.preventDefault();
+                e.stopPropagation();
+
+                // Upvote the question
                 app.upvoteQuestion(e.targetVM.$get('id'));
             },
         },
+    });
+
+    $('body').on('click', function(e) {
+        if (e.target.className != 'question') {
+            $('li.question').removeClass('expanded');
+        }
     });
 
     app.socket = io.connect();
@@ -70,6 +93,10 @@ app = {
     vue: undefined,
     socket: undefined,
 
+    // Throttling
+    isThrottled: false,
+    throttleDuration: 100,
+
     // Add a question: push the question to the server
     addQuestion: function(questionText) {
         question = {
@@ -82,5 +109,5 @@ app = {
     upvoteQuestion: function(questionId) {
         app.socket.emit('upvote question', questionId);
     },
-
 }
+
